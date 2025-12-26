@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Footer from "@/components/app/footer"
 import Navbar from "@/components/app/navbar/navbar"
@@ -14,7 +14,7 @@ interface MetaData {
   isLastPage: boolean;
 }
 
-export default function ProjectsPage() {
+function ProjectsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -189,5 +189,13 @@ export default function ProjectsPage() {
         technologies={projectTechnologies}
       />
     </>
-  ) 
+  )
+}
+
+export default function ProjectsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex justify-center items-center">Loading...</div>}>
+      <ProjectsContent />
+    </Suspense>
+  );
 }
